@@ -11,17 +11,16 @@ import java.util.Date;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class User {
+public class Policy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
-    private String password;
-    private String email;
-    private String contactNumber;
-    private Boolean status;
-    private Integer privilege;
+
+    private String name;
+    private String description;
+    private String type;
+    private String policy;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -41,52 +40,36 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getEmail() {
-        return email;
+    public String getType() {
+        return type;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getContactNumber() {
-        return contactNumber;
+    public String getPolicy() {
+        return policy;
     }
 
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
-
-    public Integer getPrivilege() {
-        return privilege;
-    }
-
-    public void setPrivilege(Integer privilege) {
-        this.privilege = privilege;
+    public void setPolicy(String policy) {
+        this.policy = policy;
     }
 
     public Date getCreatedAt() {
