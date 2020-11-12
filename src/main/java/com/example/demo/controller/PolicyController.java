@@ -26,6 +26,9 @@ public class PolicyController {
     private final String RESOURCE = "POLICY";
     private final Integer GET = 1;
     private final Integer POST = 2;
+    private final Integer DELETE = 3;
+    private final Integer PUT = 4;
+
     private final static Log logger = LogFactory.getLog(Util.class);
 
     @Autowired
@@ -53,7 +56,7 @@ public class PolicyController {
                 Policy createdPolicy = policyService.create(policy);
                 return new ResponseEntity<>(createdPolicy, HttpStatus.CREATED);
             } else {
-                throw new UnauthorizedException("Policy", "loginUserID", loginUserID);
+                throw new UnauthorizedException(RESOURCE, "loginUserID", loginUserID);
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -77,7 +80,7 @@ public class PolicyController {
                 List<Policy> policies = policyService.getAllPolicies();
                 return new ResponseEntity<>(policies, HttpStatus.OK);
             } else {
-                throw new UnauthorizedException("Policy", "loginUserID", loginUserID);
+                throw new UnauthorizedException(RESOURCE, "loginUserID", loginUserID);
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -87,7 +90,13 @@ public class PolicyController {
 
     @GetMapping("/get/policies/{userID}")
     public ResponseEntity getPoliciesByUserID(@PathVariable Long userID, @RequestHeader Map<String, String> headers) {
-        Long loginUserID = jwtUtil.decodeJWT(headers.get("authorization").split(" ")[1]);
+        String token = null;
+        if (headers.get("authorization") != null) {
+            token = headers.get("authorization").split(" ")[1];
+        } else {
+            throw new ResourceNotFoundException("authorization", "token", token);
+        }
+        Long loginUserID = jwtUtil.decodeJWT(token);
         try {
             boolean hasAccess = util.hasAccess(loginUserID, RESOURCE, GET);
             logger.info("hasAccess : " + hasAccess);
@@ -95,7 +104,7 @@ public class PolicyController {
                 List<String> userPolicies = policyService.getUserPolicies(userID);
                 return new ResponseEntity<>(userPolicies, HttpStatus.OK);
             } else {
-                throw new UnauthorizedException("Policy", "loginUserID", loginUserID);
+                throw new UnauthorizedException(RESOURCE, "loginUserID", loginUserID);
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
