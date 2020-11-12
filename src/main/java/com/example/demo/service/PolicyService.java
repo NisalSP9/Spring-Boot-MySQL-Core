@@ -21,4 +21,8 @@ public class PolicyService {
         return policyRepository.findAll();
     }
 
+    public List<String> getUserPolicies(Long userID){
+        return policyRepository.getUserPolicies(userID);
+    }
+
 }
