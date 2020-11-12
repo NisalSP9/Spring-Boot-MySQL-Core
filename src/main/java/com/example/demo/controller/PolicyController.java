@@ -112,5 +112,29 @@ public class PolicyController {
         }
     }
 
+    @DeleteMapping("delete/{Id}")
+    public ResponseEntity deletePolicyById(@PathVariable Long Id, @RequestHeader Map<String, String> headers) {
+        String token = null;
+        if (headers.get("authorization") != null) {
+            token = headers.get("authorization").split(" ")[1];
+        } else {
+            throw new ResourceNotFoundException("authorization", "token", token);
+        }
+        Long loginUserID = jwtUtil.decodeJWT(token);
+        try {
+            boolean hasAccess = util.hasAccess(loginUserID, RESOURCE, DELETE);
+            logger.info("hasAccess : " + hasAccess);
+            if (hasAccess) {
+                Policy policy = policyService.deletePolicyId(Id);
+                return new ResponseEntity<>(policy, HttpStatus.OK);
+            } else {
+                throw new UnauthorizedException(RESOURCE, "loginUserID", loginUserID);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PolicyService {
@@ -23,6 +24,17 @@ public class PolicyService {
 
     public List<String> getUserPolicies(Long userID){
         return policyRepository.getUserPolicies(userID);
+    }
+
+    public Policy deletePolicyId(Long id){
+        Optional<Policy> optionalPolicy = policyRepository.findById(id);
+        if(optionalPolicy.isPresent()){
+            Policy policy = optionalPolicy.get();
+            policyRepository.deleteById(policy.getId());
+            return policy;
+        }else {
+            return null;
+        }
     }
 
 }

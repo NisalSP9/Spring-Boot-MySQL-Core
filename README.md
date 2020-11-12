@@ -40,7 +40,7 @@ application property file)
     
     password = admin
     
-    you will get access token String as response copy it and paste it in 
+    you will get access token and it will set to
     token value filed in environment.
     
     Now you can access all User, Role and Policy APIs 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoleService {
@@ -21,4 +22,14 @@ public class RoleService {
         return roleRepository.findAll();
     }
 
+    public Role deleteRoleId(Long id){
+        Optional<Role> optionalRole = roleRepository.findById(id);
+        if(optionalRole.isPresent()){
+            Role role = optionalRole.get();
+            roleRepository.deleteById(role.getId());
+            return role;
+        }else {
+            return null;
+        }
+    }
 }
