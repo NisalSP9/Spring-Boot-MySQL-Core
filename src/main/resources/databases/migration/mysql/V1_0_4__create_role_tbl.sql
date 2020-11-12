@@ -6,5 +6,5 @@ CREATE TABLE `role` (
   `created_at` timestamp NULL,
   `updated_at` timestamp NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
