@@ -1,6 +1,6 @@
 # Spring-Boot-MySQL-Demo
 
-#### This is a sample spring boot project work with Mysql database.
+#### This is a sample spring boot project work with Mysql database created using Gradle.
 
 ##### To get started :
 
