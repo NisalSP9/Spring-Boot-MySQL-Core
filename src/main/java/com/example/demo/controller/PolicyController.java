@@ -136,5 +136,29 @@ public class PolicyController {
         }
     }
 
+    @PutMapping("/update")
+    public ResponseEntity updatePolicy(@RequestBody Policy policy, @RequestHeader Map<String, String> headers) {
+        String token = null;
+        if (headers.get("authorization") != null) {
+            token = headers.get("authorization").split(" ")[1];
+        } else {
+            throw new ResourceNotFoundException("authorization", "token", token);
+        }
+        try {
+            Long loginUserID = jwtUtil.decodeJWT(token);
+            boolean hasAccess = util.hasAccess(loginUserID, RESOURCE, PUT);
+            logger.info("hasAccess : " + hasAccess);
+            if (hasAccess) {
+                Policy updatedPolicy = policyService.create(policy);
+                return new ResponseEntity<>(updatedPolicy, HttpStatus.OK);
+            } else {
+                throw new UnauthorizedException(RESOURCE, "loginUserID", loginUserID);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }

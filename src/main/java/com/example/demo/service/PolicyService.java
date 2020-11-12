@@ -37,4 +37,8 @@ public class PolicyService {
         }
     }
 
+    public Policy update(Policy policy){
+        return policyRepository.save(policy);
+    }
+
 }
