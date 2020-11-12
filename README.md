@@ -10,6 +10,7 @@
 2) Change followings in application.properties file according to your MySQL configurations
 
     spring.datasource.username=###
+    
     spring.datasource.password=###
   
 3) To run project _**_**./gradlew bootRun -Penv=local**_**_ (Profiling not 
